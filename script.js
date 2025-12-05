@@ -1,4 +1,3 @@
-// بارگذاری مقالات از posts.json
 fetch("posts.json")
   .then(res => res.json())
   .then(posts => {
@@ -7,9 +6,9 @@ fetch("posts.json")
       const div = document.createElement("div");
       div.className = "post";
       div.innerHTML = `
-        <img src="${post.cover}" alt="${post.title}">
+        <img src="${post.cover}" alt="${post.title}" style="max-width:200px;">
         <h2>${post.title}</h2>
-        <p>${post.text}</p>
+        <p>${post.text.replace(/\n/g, "<br>")}</p>
         <button onclick="location.href='article.html?id=${post.id}'">ادامه مطلب</button>
       `;
       container.appendChild(div);
