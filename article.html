@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head
+>
+<meta charset="UTF-8">
+<title>مقاله</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1>مقاله</h1>
+  <a href="index.html" style="color:white; margin-left:20px;">بازگشت به خانه</a>
+</header>
+
+<main id="article" class="post" style="margin:20px;"></main>
+
+<script>
+let posts = JSON.parse(localStorage.getItem("posts")) || [];
+const id = new URLSearchParams(window.location.search).get("id");
+const article = posts.find(p=>p.id==id);
+
+if(article){
+  document.getElementById("article").innerHTML = `
+    <h2>${article.title}</h2>
+    ${article.full}
+  `;
+}else{
+  document.getElementById("article").innerHTML = "<p>مقاله یافت نشد!</p>";
+}
+</script>
+
+</body>
+</html>

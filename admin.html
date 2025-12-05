@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head
+>
+<meta charset="UTF-8">
+<title>پنل مدیریت مقاله</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+<h1>پنل مدیریت مقاله</h1>
+<a href="index.html" style="color:white; margin-left:20px;">بازگشت به خانه</a>
+</header>
+
+<main style="padding:20px;">
+  <div class="post">
+    <h2>اضافه کردن مقاله جدید</h2>
+    <label>عنوان مقاله:</label><br>
+    <input type="text" id="title" placeholder="عنوان مقاله"><br><br>
+
+    <label>خلاصه مقاله:</label><br>
+    <textarea id="summary" placeholder="خلاصه کوتاه"></textarea><br><br>
+
+    <label>کاور مقاله (URL تصویر):</label><br>
+    <input type="text" id="cover" placeholder="آدرس تصویر"><br><br>
+
+    <label>متن کامل مقاله (می‌توانی <img> داخلش بذاری):</label><br>
+    <textarea id="full" placeholder="متن کامل مقاله"></textarea><br><br>
+
+    <button onclick="addPost()">افزودن مقاله</button>
+  </div>
+
+  <hr>
+
+  <h2>لیست مقالات موجود</h2>
+  <div id="postList"></div>
+</main>
+
+<script>
+function addPost(){
+  const title = document.getElementById("title").value;
+  const summary = document.getElementById("summary").value;
+  const cover = document.getElementById("cover").value;
+  const full = document.getElementById("full").value;
+
+  if(!title || !summary || !cover || !full){
+    alert("همه فیلدها باید پر شوند!");
+    return;
+  }
+
+  let posts = JSON.parse(localStorage.getItem("posts")) || [];
+  const id = posts.length + 1;
+  posts.push({id, title, text: summary, full, cover});
+  localStorage.setItem("posts", JSON.stringify(posts));
+
+  alert("مقاله اضافه شد!");
+  document.getElementById("title").value = "";
+  document.getElementById("summary").value = "";
+  document.getElementById("cover").value = "";
+  document.getElementById("full").value = "";
+
+  renderPosts();
+}
+
+// تابع نمایش مقالات با دکمه حذف
+function renderPosts(){
+  const postList = document.getElementById("postList");
+  postList.innerHTML = "";
+  let posts = JSON.parse(localStorage.getItem("posts")) || [];
+
+  posts.forEach(post=>{
+    const div = document.createElement("div");
+    div.className="post";
+    div.style.marginBottom="10px";
+    div.innerHTML = `
+      <strong>${post.title}</strong>
+      <button onclick="deletePost(${post.id})" style="margin-left:10px; cursor:pointer;">حذف</button>
+    `;
+    postList.appendChild(div);
+  });
+}
+
+// تابع حذف مقاله
+function deletePost(id){
+  if(!confirm("آیا مطمئن هستی که می‌خوای این مقاله حذف شود؟")) return;
+  let posts = JSON.parse(localStorage.getItem("posts")) || [];
+  posts = posts.filter(p=>p.id!==id);
+  localStorage.setItem("posts", JSON.stringify(posts));
+  renderPosts();
+}
+
+// نمایش اولیه مقالات
+renderPosts();
+</script>
+
+</body>
+</html>
