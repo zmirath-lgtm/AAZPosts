@@ -6,6 +6,9 @@
 
   <main id="article" class="post" style="margin:20px;"></main>
 
+  <script src="data.js"></script>
+<script src="article-script.js"></script>
+
   <script>
     const id = new URLSearchParams(window.location.search).get("id");
 
@@ -26,6 +29,7 @@ fetch("./posts.json")
       .catch(err => console.error(err));
   </script>
 </body>
+
 
 
 
