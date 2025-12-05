@@ -1,4 +1,4 @@
-fetch("posts.json")
+fetch("./posts.json")
   .then(res => res.json())
   .then(posts => {
     const container = document.getElementById("posts");
@@ -15,3 +15,4 @@ fetch("posts.json")
     });
   })
   .catch(err => console.error("مشکل در بارگذاری مقالات:", err));
+
